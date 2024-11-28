@@ -14,8 +14,8 @@ export class AppComponent implements OnInit {
   report = {
     dataSource: {
       browseForFile: true,
-      type: "csv",
-      fileName: "src/assets/friends_info.csv"
+      type: "json",
+      fileName: "src/assets/friends_info.json"
     }
   };
 
