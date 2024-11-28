@@ -181,12 +181,18 @@
   <fm-pivot 
   #pivot 
 
-  [report]="report" 
+  [report]="'https://cdn.flexmonster.com/github/highcharts-report.json'"
   [toolbar]="true"
   
   [height]="600"
-  (beforetoolbarcreated)="customizeToolbar($event)">
+  [licenseFilePath]="'https://cdn.flexmonster.com/jsfiddle.charts.key'"
+
+  (beforetoolbarcreated)="customizeToolbar($event)"
+  (reportcomplete)="onReportComplete()">
 </fm-pivot>
+
+
+<div id="chartContainer"></div>
 
 
 
