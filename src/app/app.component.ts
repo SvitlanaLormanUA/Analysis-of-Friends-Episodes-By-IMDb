@@ -14,24 +14,58 @@ export class AppComponent implements OnInit {
   title = 'flexmonster-project';
   @ViewChild('pivot') pivotRef!: FlexmonsterPivot;
 
-  report = {
-    dataSource: {
-      type: 'json',
-      data: friends_info,
-    },
-    slice: {
-      rows: [{ uniqueName: 'directed_by' }],
-      columns: [{ uniqueName: 'title' }],
-      measures: [{ uniqueName: 'imdb_rating' }],
-    },
-  };
+  report: any;
 
   constructor() {}
 
   ngOnInit(): void {
+    this.generateReport(friends_info);
+  }
+
+  generateReport(data: any[]) {
+    const processedData = this.processData(data);
+
+    this.report = {
+      dataSource: {
+        type: 'json',
+        data: processedData,
+      },
+      slice: {
+        rows: [
+          { uniqueName: 'director' },
+          { uniqueName: 'title' },
+        ],
+        columns: [],
+        measures: [
+          {
+            uniqueName: 'average_imdb_rating',
+            aggregation: 'sum',
+          },
+        ],
+      },
+    };
+
     if (this.pivotRef) {
-      this.pivotRef.flexmonster.setReport(this.report);
+      this.pivotRef.flexmonster.setReport(this.report); // Set the report
     }
+  }
+
+  processData(data: any[]) {
+    const processedData: { director: string, title: string, average_imdb_rating: number }[] = [];
+
+    data.forEach((episode) => {
+      const director = episode.directed_by;
+      const episodeTitle = episode.title;
+      const rating = episode.imdb_rating;
+
+      processedData.push({
+        director,
+        title: episodeTitle,
+        average_imdb_rating: rating,
+      });
+    });
+
+    return processedData;
   }
 
   customizeToolbar(toolbar: any) {
@@ -44,31 +78,11 @@ export class AppComponent implements OnInit {
     this.createChart(processedData);
   }
 
-  processData(data: any[]) {
-    const groupedData: { [key: string]: number[] } = {};
-
-    data.forEach((episode) => {
-      const director = episode.directed_by;
-      const rating = episode.imdb_rating;
-
-      if (!groupedData[director]) {
-        groupedData[director] = [];
-      }
-
-      groupedData[director].push(rating);
-    });
-
-    const averageRatings = Object.entries(groupedData).map(([director, ratings]) => {
-      const averageRating = ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length;
-      return { director, averageRating: parseFloat(averageRating.toFixed(2)) };
-    });
-
-    return averageRatings;
-  }
-
-  createChart(data: { director: string; averageRating: number }[]) {
+  createChart(data: { director: string; title: string; average_imdb_rating: number }[]) {
     const categories = data.map((item) => item.director);
-    const seriesData = data.map((item) => item.averageRating);
+    const seriesData = data.map((item) => item.average_imdb_rating);
+    const titles = data.map((item) => item.title);
+    const ratings = data.map((item) => item.average_imdb_rating);
 
     Highcharts.chart('chartContainer', {
       chart: {
@@ -118,10 +132,19 @@ export class AppComponent implements OnInit {
       },
       series: [
         {
-          type: 'column', // Вказуємо тип серії
+          type: 'column',
           name: 'Average Rating',
           data: seriesData,
           color: '#7cb5ec',
+          tooltip: {
+            pointFormatter: function () {
+              const episodeIndex = this.index;
+              return `
+                <b>Episode: ${titles[episodeIndex]}</b><br>
+                IMDb Rating: ${ratings[episodeIndex]}
+              `;
+            },
+          },
         },
       ],
       plotOptions: {
@@ -146,6 +169,5 @@ export class AppComponent implements OnInit {
         },
       },
     });
-    
   }
 }
