@@ -1,2 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import "flexmonster/flexmonster.min.css";
+#chartContainer {
+    margin: 20px;
+  }
+  .fm-highcharts-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+  }
+  .chartContainer {
+    margin-top: 10em;
+  }

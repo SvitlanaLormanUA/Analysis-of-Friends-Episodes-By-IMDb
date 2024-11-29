@@ -178,22 +178,23 @@
 </style>
 
 <main class="main">
-  <fm-pivot 
-  #pivot 
+  <div class="fm-highcharts-container">
+        <fm-pivot 
+        #pivot 
 
-  [report]="'https://cdn.flexmonster.com/github/highcharts-report.json'"
-  [toolbar]="true"
-  
-  [height]="600"
-  [licenseFilePath]="'https://cdn.flexmonster.com/jsfiddle.charts.key'"
+        [report]="report"
+        [toolbar]="true"
+        
+        [height]="600"
+        [licenseFilePath]="'https://cdn.flexmonster.com/jsfiddle.charts.key'"
 
-  (beforetoolbarcreated)="customizeToolbar($event)"
-  (reportcomplete)="onReportComplete()">
-</fm-pivot>
+        (beforetoolbarcreated)="customizeToolbar($event)"
+        (reportcomplete)="onReportComplete()">
+      </fm-pivot>
 
 
-<div id="chartContainer"></div>
-
+      <div id="chartContainer"></div>
+</div>
 
 
   
