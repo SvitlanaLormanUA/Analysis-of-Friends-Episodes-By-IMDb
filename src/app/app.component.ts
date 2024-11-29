@@ -30,6 +30,12 @@ export class AppComponent implements OnInit {
         type: 'json',
         data: processedData,
       },
+      formats: [
+        {
+          name: "",
+           decimalPlaces: 2,
+        }
+      ],
       slice: {
         rows: [
           { uniqueName: 'director' },
@@ -39,7 +45,8 @@ export class AppComponent implements OnInit {
         measures: [
           {
             uniqueName: 'average_imdb_rating',
-            aggregation: 'sum',
+            aggregation: 'average',
+          
           },
         ],
       },
@@ -77,7 +84,16 @@ export class AppComponent implements OnInit {
     const processedData = this.processData(friends_info);
     this.createChart(processedData);
   }
-
+ customizeCellFunction(cell: Flexmonster.CellBuilder, data: Flexmonster.CellData) {
+  if (data.measure && data.measure.uniqueName === "average_imdb_rating") {
+    if ((data.value ?? 0) > 8.5) {
+      cell.addClass("alter");
+    } else {
+      return;
+    }
+  }
+}
+  
   createChart(data: { director: string; title: string; average_imdb_rating: number }[]) {
     const categories = data.map((item) => item.director);
     const seriesData = data.map((item) => item.average_imdb_rating);

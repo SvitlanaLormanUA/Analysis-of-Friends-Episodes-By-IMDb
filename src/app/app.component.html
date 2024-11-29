@@ -187,7 +187,7 @@
         
         [height]="600"
         [licenseFilePath]="'https://cdn.flexmonster.com/jsfiddle.charts.key'"
-
+        [customizeCell]="customizeCellFunction"
         (beforetoolbarcreated)="customizeToolbar($event)"
         (reportcomplete)="onReportComplete()">
       </fm-pivot>

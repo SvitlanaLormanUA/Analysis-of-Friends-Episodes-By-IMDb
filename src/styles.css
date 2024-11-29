@@ -13,3 +13,7 @@
   .chartContainer {
     margin-top: 10em;
   }
+  #fm-pivot-view .fm-grid-view div.fm-cell.alter {
+    background-color: rgb(124, 181, 236) !important;
+    color: white !important;
+  }
