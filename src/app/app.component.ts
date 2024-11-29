@@ -36,6 +36,12 @@ export class AppComponent implements OnInit {
            decimalPlaces: 2,
         }
       ],
+      options: {
+        grid: {
+          showTotals: "off",
+          showGrandTotals: "off"
+       }
+      },
       slice: {
         rows: [
           { uniqueName: 'director' },
@@ -46,9 +52,9 @@ export class AppComponent implements OnInit {
           {
             uniqueName: 'average_imdb_rating',
             aggregation: 'average',
-          
           },
         ],
+      
       },
     };
 
