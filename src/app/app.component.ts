@@ -115,6 +115,8 @@ export class AppComponent implements OnInit {
         style: {
           fontFamily: 'Verdana, sans-serif',
         },
+        width: 1500,
+        height: 400, 
       },
       title: {
         text: 'Average IMDb Ratings by Director',
@@ -122,6 +124,7 @@ export class AppComponent implements OnInit {
           fontSize: '20px',
           fontWeight: 'bold',
           color: '#333333',
+  
         },
       },
       subtitle: {
