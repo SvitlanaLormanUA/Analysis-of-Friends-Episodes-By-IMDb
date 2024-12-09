@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
     const processedData = this.processData(data);
 
     this.report = {
+     
       dataSource: {
         type: 'json',
         data: processedData,
